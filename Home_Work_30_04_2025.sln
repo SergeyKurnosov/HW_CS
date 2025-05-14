@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator", "Calculator\Ca
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geometry", "Geometry\Geometry.csproj", "{31605B12-B3A5-42FE-9828-8D89E823455D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rhombus", "Rhombus\Rhombus.csproj", "{AAD2A67C-4952-4CF1-B408-A5332B8559A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChessBoard", "ChessBoard\ChessBoard.csproj", "{D392F88D-451C-461F-B7F6-5BD76395890C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{31605B12-B3A5-42FE-9828-8D89E823455D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31605B12-B3A5-42FE-9828-8D89E823455D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31605B12-B3A5-42FE-9828-8D89E823455D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAD2A67C-4952-4CF1-B408-A5332B8559A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAD2A67C-4952-4CF1-B408-A5332B8559A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAD2A67C-4952-4CF1-B408-A5332B8559A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAD2A67C-4952-4CF1-B408-A5332B8559A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D392F88D-451C-461F-B7F6-5BD76395890C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D392F88D-451C-461F-B7F6-5BD76395890C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D392F88D-451C-461F-B7F6-5BD76395890C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D392F88D-451C-461F-B7F6-5BD76395890C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
