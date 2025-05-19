@@ -23,7 +23,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Point", "Point\Point.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fraction", "Fraction\Fraction.csproj", "{679AD715-5F3B-4EC6-A2FA-D1B0E4A032FB}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OOP", "OOP", "{74AF7CCA-3A16-408B-873E-C905174DD5C4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nnn", "nnn", "{74AF7CCA-3A16-408B-873E-C905174DD5C4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OOP", "OOP", "{067AF764-9107-4440-8C85-B244E2CF017F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
