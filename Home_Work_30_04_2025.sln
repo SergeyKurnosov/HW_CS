@@ -23,9 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Point", "Point\Point.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fraction", "Fraction\Fraction.csproj", "{679AD715-5F3B-4EC6-A2FA-D1B0E4A032FB}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nnn", "nnn", "{74AF7CCA-3A16-408B-873E-C905174DD5C4}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OOP", "OOP", "{067AF764-9107-4440-8C85-B244E2CF017F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Academy", "Academy\Academy.csproj", "{B2ECB83F-5C58-4F98-A76B-D7C42C4CF1F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,13 +71,13 @@ Global
 		{679AD715-5F3B-4EC6-A2FA-D1B0E4A032FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{679AD715-5F3B-4EC6-A2FA-D1B0E4A032FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{679AD715-5F3B-4EC6-A2FA-D1B0E4A032FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2ECB83F-5C58-4F98-A76B-D7C42C4CF1F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2ECB83F-5C58-4F98-A76B-D7C42C4CF1F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2ECB83F-5C58-4F98-A76B-D7C42C4CF1F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2ECB83F-5C58-4F98-A76B-D7C42C4CF1F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{EB67F302-5C63-4796-B8EE-28143EC92E43} = {067AF764-9107-4440-8C85-B244E2CF017F}
-		{679AD715-5F3B-4EC6-A2FA-D1B0E4A032FB} = {067AF764-9107-4440-8C85-B244E2CF017F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F3BEA4C2-C055-4B33-B98E-DA268CC30737}
