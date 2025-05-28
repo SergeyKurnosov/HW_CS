@@ -7,10 +7,15 @@ using System.Threading.Tasks;
 
 namespace Geometry_Win_App
 {
+	enum type_shape
+	{
+		Ellipse = 0, Rectangle = 1, Triangle = 2,
+	}
 	internal class Displayer : Form
 	{
-		private RichTextBox logTextBox;
 		private Button drawButton;
+
+		Shape shape;
 
 		private TextBox Param1TextBox;
 		private TextBox Param2TextBox;
@@ -19,9 +24,9 @@ namespace Geometry_Win_App
 		private Label Param2Label;
 		private Label Param3Label;
 
-		private RadioButton rbTriangle;
-		private RadioButton rbEllipse;
-		private RadioButton rbRectangle;
+		private ComboBox Base_comboBox;
+		private ComboBox Nested_comboBox;
+
 		private Label ChoiceShapeLabel;
 
 		private bool isDrawRectangle = false;
@@ -32,98 +37,141 @@ namespace Geometry_Win_App
 		private double shapeParam2 = 200;
 		private double shapeParam3 = 200;
 
+		private type_shape Type_shape;
+
 		public Displayer()
 		{
 			this.Text = "Графика и лог";
 			this.Width = 900;
 			this.Height = 600;
 
-			drawButton = new Button();
-			drawButton.Text = "Нарисовать";
-			drawButton.Location = new Point(10, 10);
+			drawButton = Displayer_expander.create_Button("Нарисовать", 10, 10);
 			drawButton.Click += DrawButton_Click;
 			this.Controls.Add(drawButton);
 
+			Param1Label = Displayer_expander.create_Label("Параметр1:", 250, 15);
+			Param1TextBox = Displayer_expander.create_TextBox(shapeParam1.ToString(), 320, 12);
 
-			Param1Label = new Label();
-			Param1Label.Text = "Параметр1:";
-			Param1Label.Location = new Point(250, 15);
-			Param1Label.AutoSize = true;
-			this.Controls.Add(Param1Label);
+			Param2Label = Displayer_expander.create_Label("Параметр2:", 380, 15);
+			Param2TextBox = Displayer_expander.create_TextBox(shapeParam2.ToString(), 450, 12);
 
-			Param1TextBox = new TextBox();
-			Param1TextBox.Text = shapeParam1.ToString();
-			Param1TextBox.Location = new Point(320, 12);
-			Param1TextBox.Width = 50;
-			this.Controls.Add(Param1TextBox);
+			Param3Label = Displayer_expander.create_Label("Параметр3:", 510, 15);
+			Param3TextBox = Displayer_expander.create_TextBox(shapeParam3.ToString(), 580, 12);
 
-
-			Param2Label = new Label();
-			Param2Label.Text = "Параметр2:";
-			Param2Label.Location = new Point(380, 15);
-			Param2Label.AutoSize = true;
-			this.Controls.Add(Param2Label);
-
-			Param2TextBox = new TextBox();
-			Param2TextBox.Text = shapeParam2.ToString();
-			Param2TextBox.Location = new Point(450, 12);
-			Param2TextBox.Width = 50;
-			this.Controls.Add(Param2TextBox);
-
-			Param3Label = new Label();
-			Param3Label.Text = "Параметр3:";
-			Param3Label.Location = new Point(510, 15);
-			Param3Label.AutoSize = true;
-			this.Controls.Add(Param3Label);
-
-			Param3TextBox = new TextBox();
-			Param3TextBox.Text = shapeParam3.ToString();
-			Param3TextBox.Location = new Point(580, 12);
-			Param3TextBox.Width = 50;
-			this.Controls.Add(Param3TextBox);
-
-			ChoiceShapeLabel = new Label();
-			ChoiceShapeLabel.Text = "Выберите фигуру:";
-			ChoiceShapeLabel.AutoSize = true;
-			ChoiceShapeLabel.Location = new Point(100, 15);
+			ChoiceShapeLabel = Displayer_expander.create_Label("Выберите фигуру:", 100, 15);
 			this.Controls.Add(ChoiceShapeLabel);
 
-			rbRectangle = new RadioButton();
-			rbRectangle.Text = "Прямоугольник";
-			rbRectangle.AutoSize = true;
-			rbRectangle.Location = new Point(100, 30);
-			rbRectangle.Checked = true;
-			this.Controls.Add(rbRectangle);
+			Base_comboBox = Displayer_expander.create_ComboBox(new string[] { "Окружность", "Прямоугольник", "Треугольник" }, 100, 30, 100, 30);
+			Base_comboBox.SelectedIndexChanged += Base_comboBox_SelectedIndexChanged;
+			this.Controls.Add(Base_comboBox);
 
-			rbEllipse = new RadioButton();
-			rbEllipse.Text = "Окружность";
-			rbEllipse.Location = new Point(100, 50);
-			this.Controls.Add(rbEllipse);
+		}
 
-			rbTriangle = new RadioButton();
-			rbTriangle.Text = "Треугольник";
-			rbTriangle.Location = new Point(100, 70);
-			this.Controls.Add(rbTriangle);
+		private void Base_comboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			this.Controls.Remove(Nested_comboBox);
+			if (Base_comboBox.SelectedItem != null)
+			{
+				switch (Base_comboBox.SelectedItem.ToString())
+				{
+					case "Окружность":
+						Type_shape = type_shape.Ellipse;
+						Nested_comboBox = Displayer_expander.create_ComboBox(new string[] { "Овал", "Круг" }, Base_comboBox.Location.X, Base_comboBox.Location.Y + 30, Base_comboBox.Width, Base_comboBox.Height);
+						break;
+					case "Прямоугольник":
+						Type_shape = type_shape.Rectangle;
+						Nested_comboBox = Displayer_expander.create_ComboBox(new string[] { "Прямоугольник", "Квадрат" }, Base_comboBox.Location.X, Base_comboBox.Location.Y + 30, Base_comboBox.Width, Base_comboBox.Height);
+						break;
+					case "Треугольник":
+						Type_shape = type_shape.Triangle;
+						Nested_comboBox = Displayer_expander.create_ComboBox(new string[] { "Разносторонний", "Равнобедренный", "Равносторонний" }, Base_comboBox.Location.X, Base_comboBox.Location.Y + 30, Base_comboBox.Width, Base_comboBox.Height);
+						break;
+				}
+				Nested_comboBox.SelectedIndexChanged += Nested_comboBox_SelectedIndexChanged;
+				this.Controls.Add(Nested_comboBox);
+			}
+		}
 
-			logTextBox = new RichTextBox();
-			logTextBox.Multiline = true;
-			logTextBox.Width = 860;
-			logTextBox.Height = 50;
-			logTextBox.Location = new Point(10, 100);
-			logTextBox.ReadOnly = true;
-			this.Controls.Add(logTextBox);
+		private void Nested_comboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (Nested_comboBox.SelectedItem != null)
+			{
+				switch (Type_shape)
+				{
+					case type_shape.Ellipse:
+						switch (Nested_comboBox.SelectedItem.ToString())
+						{
+							case "Овал": parametrs(2); break;
+							case "Круг": parametrs(1); break;
+						}
+
+						break;
+					case type_shape.Rectangle:
+
+						switch (Nested_comboBox.SelectedItem.ToString())
+						{
+							case "Прямоугольник": parametrs(2); break;
+							case "Квадрат": parametrs(1); break;
+						}
+
+						break;
+					case type_shape.Triangle:
+
+						switch (Nested_comboBox.SelectedItem.ToString())
+						{
+							case "Разносторонний": parametrs(3); break;
+							case "Равнобедренный": parametrs(2); break;
+							case "Равносторонний": parametrs(1); break;
+						}
+
+						break;
+				}
+			}
+		}
+
+		public void parametrs(int count = 1)
+		{
+			this.Controls.Add(Param1Label);
+			this.Controls.Add(Param1TextBox);
+
+			switch (count)
+			{
+				case 1:
+					this.Controls.Remove(Param2Label);
+					this.Controls.Remove(Param2TextBox);
+
+					this.Controls.Remove(Param3Label);
+					this.Controls.Remove(Param3TextBox);
+					break;
+				case 2:
+					this.Controls.Add(Param2Label);
+					this.Controls.Add(Param2TextBox);
+
+					this.Controls.Remove(Param3Label);
+					this.Controls.Remove(Param3TextBox);
+
+					break;
+				case 3:
+					this.Controls.Add(Param2Label);
+					this.Controls.Add(Param2TextBox);
+
+					this.Controls.Add(Param3Label);
+					this.Controls.Add(Param3TextBox);
+					break;
+			}
+
+
+
 		}
 
 		private void DrawButton_Click(object sender, EventArgs e)
 		{
-			Log("Кнопка нажата. Рисуем выбранную фигуру...");
-
 			if (!double.TryParse(Param1TextBox.Text, out double param1) ||
 				!double.TryParse(Param2TextBox.Text, out double param2) ||
 				!double.TryParse(Param3TextBox.Text, out double param3)
 				)
 			{
-				Log("Ошибка: введите корректные числа для параметров.");
+
 				MessageBox.Show("Пожалуйста, введите правильные числа.", "Ошибка");
 				return;
 			}
@@ -132,6 +180,51 @@ namespace Geometry_Win_App
 			shapeParam2 = param2;
 			shapeParam3 = param3;
 
+			switch (Type_shape)
+			{
+				case type_shape.Ellipse:
+					switch (Nested_comboBox.SelectedItem.ToString())
+					{
+						case "Овал": 
+							shape = new Ellipse(param1, param2, Color.Black); break;
+						case "Круг": 
+							shape = new Circle(param1, Color.Black);
+							shapeParam2 = shapeParam1;
+							break;
+					}
+					break;
+				case type_shape.Rectangle:
+
+					switch (Nested_comboBox.SelectedItem.ToString())
+					{
+						case "Прямоугольник": shape = new Rectangle(param1, param2, Color.Blue); break;
+						case "Квадрат": 
+							shape = new Square(param1, Color.Blue);
+							shapeParam2 = shapeParam1;
+							break;
+					}
+
+					break;
+				case type_shape.Triangle:
+
+					switch (Nested_comboBox.SelectedItem.ToString())
+					{
+						case "Разносторонний": shape = new Triangle(param1, param2, param3, Color.Brown); break;
+						case "Равнобедренный": 
+							shape = new IsoscelesTriangle(param1, param2, Color.Brown);
+							shapeParam3 = shapeParam2;						
+							shapeParam2 = shapeParam1;
+							break;
+						case "Равносторонний": 
+							shape = new EquilateralTriangle(param1, Color.Brown);
+							shapeParam2 = shapeParam1;
+							shapeParam3 = shapeParam1;
+							break;
+					}
+
+					break;
+			}
+
 			isDrawRectangle = true;
 			this.Invalidate();
 		}
@@ -139,60 +232,33 @@ namespace Geometry_Win_App
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			base.OnPaint(e);
-			string shape_type = "пустота";
 			if (isDrawRectangle)
 			{
-				Pen pen = new Pen(Color.Blue, 3);
+				Pen pen = new Pen(shape.Color, shape.LineWidth);
+				shape.Info();
 
-				if (rbRectangle.Checked)
+				switch (Type_shape)
 				{
-					Rectangle rec = new Rectangle(shapeParam1, shapeParam2, pen.Color);
-					rec.Info();
-					e.Graphics.DrawRectangle(pen, rectX, rectY, Convert.ToInt32(shapeParam1), Convert.ToInt32(shapeParam2));
-					shape_type = "Прямоугольник/Квадрат";
-				}
-				else if (rbEllipse.Checked)
-				{ 
-					Ellipse ell = new Ellipse(shapeParam1, shapeParam2,pen.Color);
-					ell.Info();
-					e.Graphics.DrawEllipse(pen, rectX, rectY, Convert.ToInt32(shapeParam1), Convert.ToInt32(shapeParam2));
-					shape_type = "Овал/Круг";
-				}
-				else if(rbTriangle.Checked)
-				{
-					double xC = (Math.Pow(shapeParam3, 2) + Math.Pow(shapeParam2, 2) - Math.Pow(shapeParam1, 2)) / (shapeParam3 * 2);
-					double temp = Math.Pow(shapeParam2, 2) - Math.Pow(xC, 2);
-					double yC = Math.Sqrt(temp);
-
-					Triangle tri = new Triangle(shapeParam1 , shapeParam2 , shapeParam3 , pen.Color);
-					tri.Info();
-					e.Graphics.DrawPolygon(pen, new Point[] { 
-						new Point(rectX, rectY), 
-						new Point(rectX + Convert.ToInt32(shapeParam3), rectY), 
+					case type_shape.Ellipse:
+						e.Graphics.DrawEllipse(pen, rectX, rectY, Convert.ToInt32(shapeParam1), Convert.ToInt32(shapeParam2));
+						break;
+					case type_shape.Rectangle:
+						e.Graphics.DrawRectangle(pen, rectX, rectY, Convert.ToInt32(shapeParam1), Convert.ToInt32(shapeParam2));
+						break;
+					case type_shape.Triangle:
+						double xC = (Math.Pow(shapeParam3, 2) + Math.Pow(shapeParam2, 2) - Math.Pow(shapeParam1, 2)) / (shapeParam3 * 2);
+						double temp = Math.Pow(shapeParam2, 2) - Math.Pow(xC, 2);
+						double yC = Math.Sqrt(temp);
+						e.Graphics.DrawPolygon(pen, new Point[] {
+						new Point(rectX, rectY),
+						new Point(rectX + Convert.ToInt32(shapeParam3), rectY),
 						new Point(rectX + Convert.ToInt32(xC), rectY - Convert.ToInt32(yC))
 						});
-					shape_type = "Треугольник";
-
+						break;
 				}
-
-				Log($"Нарисованна фигура - {shape_type}");
 				isDrawRectangle = false;
 				pen.Dispose();
 			}
-		}
-
-
-
-
-		private void DrawShape(Action drawAction)
-		{
-			drawAction.Invoke();
-			Log("Фигура нарисована.");
-		}
-
-		private void Log(string message)
-		{
-			logTextBox.AppendText($"{DateTime.Now:HH:mm:ss} - {message}\n");
 		}
 
 	}

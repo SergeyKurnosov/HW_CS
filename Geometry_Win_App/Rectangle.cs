@@ -8,27 +8,38 @@ namespace Geometry_Win_App
 {
 	internal class Rectangle:Shape
 	{
-		double Side1 { get; set; }
-		double Side2 { get; set; }
+		double width;
+		double height;
 
-		public Rectangle(double side1 , double side2, Color color) : base(color)
+		public double Width
 		{
-			Side1 = side1;
-			Side2 = side2;
+			get => width;
+			set => width = value < Constant_Display.MIN_SIZE ? Constant_Display.MIN_SIZE : value > Constant_Display.MAX_SIZE ? Constant_Display.MAX_SIZE : value;
+		}
+		public double Height
+		{
+			get => height;
+			set => height = value < Constant_Display.MIN_SIZE ? Constant_Display.MIN_SIZE : value > Constant_Display.MAX_SIZE ? Constant_Display.MAX_SIZE : value;
+		}
+
+		public Rectangle(double with , double height, Color color) : base(color)
+		{
+			Width = with;
+			Height = height;
 		}
 		public override double GetArea()
 		{
-			return Side1 * Side2;
+			return Width * Height;
 		}
 		public override double GetPerimeter()
 		{
-			return (Side1+Side2) * 2;
+			return (Width+Height) * 2;
 		}
 		public override void Draw(){}
 
 		public override void Info()
 		{
-			Console.WriteLine($"Длины сторон: {Side1} / {Side2}");
+			Console.WriteLine($"Длины сторон: {width} / {height}");
 			base.Info();
 		}
 

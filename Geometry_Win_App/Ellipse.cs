@@ -8,13 +8,24 @@ namespace Geometry_Win_App
 {
 	internal class Ellipse:Shape
 	{
-		double DiametrX { get; set; }
-		double DiametrY { get; set; }
+		double diametrX;
+		double diametrY;
+
+		public double DiametrX
+		{
+			get => diametrX;
+			set => diametrX = value < Constant_Display.MIN_SIZE ? Constant_Display.MIN_SIZE : value > Constant_Display.MAX_SIZE ? Constant_Display.MAX_SIZE : value;
+		}
+		public double DiametrY
+		{
+			get => diametrY;
+			set => diametrY = value < Constant_Display.MIN_SIZE ? Constant_Display.MIN_SIZE : value > Constant_Display.MAX_SIZE ? Constant_Display.MAX_SIZE : value;
+		}
 
 		public Ellipse(double diametrX, double diametrY, Color color) : base(color)
 		{
 		   DiametrX = diametrX;
-			DiametrY = diametrY;
+		   DiametrY = diametrY;
 		}
 		public override double GetArea()
 		{
