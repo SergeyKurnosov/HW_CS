@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ForwardList
+namespace DoubleList
 {
 	internal class Program
 	{
 		static void Main(string[] args)
 		{
-
-
-			ForwardList list2 = new ForwardList() { 3, 5, 8, 13, 21 };
+			DoubleList list2 = new DoubleList() { 3, 5, 8, 13, 21 };
 
 			foreach (int i in list2)
 			{
@@ -22,9 +19,7 @@ namespace ForwardList
 			Console.WriteLine();
 
 
-
-			////////////////////////////////////////////////////////////
-			///
+			///////////////////////////////////////////////////////
 
 			//Console.WriteLine($"\nВведите размер списка : ");
 			//int n = Convert.ToInt32(Console.ReadLine());
@@ -32,15 +27,16 @@ namespace ForwardList
 			//Random rand = new Random(0);
 
 
-			//ForwardList list = new ForwardList();
+			//DoubleList list = new DoubleList();
 			//list.PushFront(123);
 			//list.PopBack();
 			//for (int i = 0; i < n; i++)
 			//{
-			//	list.PushFront(rand.Next(100));
-
+			//	list.PushBack(rand.Next(100));
 			//}
-			//list.Print();
+			//list.Print_go();
+
+
 			//bool inputError;
 			//do
 			//{
@@ -58,10 +54,9 @@ namespace ForwardList
 
 			//		Console.WriteLine(ex.Message);
 			//		inputError = true;
-			//	} 
+			//	}
 			//} while (inputError);
-			//list.Print();
-
+			//list.Print_go();
 		}
 	}
 }

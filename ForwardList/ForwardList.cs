@@ -1,15 +1,32 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ForwardList
 {
-	internal class ForwardList
+	internal class ForwardList : IEnumerable<int>
 	{
 		Element Head { get; set; }
 		public int Lenth { get; private set; }
+
+
+		public void Add(int y)
+		{
+			PushBack(y);
+		}
+
+	public IEnumerator<int> GetEnumerator()
+		{
+			for (Element Temp = Head; Temp != null; Temp = Temp.pNext)
+			{
+				yield return Temp.Data;
+			}
+		}
+
 		public ForwardList()
 		{
 			Head = null;
@@ -56,8 +73,6 @@ namespace ForwardList
 		{
 			if(index > Lenth || index < 0)
 			{
-				//Console.WriteLine($"Error Выход за пределы");
-			//	return;
 			throw new IndexOutOfRangeException("Error: Выход за пределы списка");
 			}
 
@@ -110,6 +125,10 @@ namespace ForwardList
 			Console.WriteLine($"Количество {Lenth}");
 		}
 
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
+		}
 
 	}
 }
