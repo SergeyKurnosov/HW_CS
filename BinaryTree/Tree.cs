@@ -216,7 +216,6 @@ namespace BinaryTree
 			Balance(Root.p_Right);
 			Balance(Root);
 		}
-
 	}
 
 }
