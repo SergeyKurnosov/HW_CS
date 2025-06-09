@@ -11,28 +11,19 @@ namespace BinaryTree
 {
 	internal class Tree
 	{
+		static readonly int BASE_INTERVAL = 3;
+
 		public Element Root { get; protected set; }
-		public int Depth_ALL { get; set; }
-		public int With_L { get; set; }
-		public int With_R { get; set; }
-		public int With_ALL { get; set; }
-		public int H_Index { get; set; }
-		public int W_Index { get; set; }
 
 		public Tree()
 		{
 			Root = null;
-			Depth_ALL = 0;
-			With_L = 0;
-			With_R = 0;
-			H_Index = 0;
-			W_Index = 0;
-			With_ALL = 0;
-			Console.WriteLine($"TConstructor: {GetHashCode()}");
 		}
-		~Tree()
+		~Tree() { }
+
+		public void Insert(int Data)
 		{
-			Console.WriteLine($"TDestructor: {GetHashCode()}");
+			Insert(Data, this.Root);
 		}
 
 		public void Insert(int Data, Element Root)
@@ -75,85 +66,24 @@ namespace BinaryTree
 			return Root == null ? 0 : Sum(Root.p_Left) + Sum(Root.p_Right) + Root.Data;
 		}
 
-		public void Print(Element Root)
-		{
-			if (Root == null) return;
-
-			Print(Root.p_Left);
-			Console.Write(Root.Data + "\t");
-			if (Root.p_Left != null || Root.p_Right != null) Print(Root.p_Right);
-		}
-
-
-
-		public void Insert(int Data)
-		{
-			Insert(Data, this.Root);
-			this.Depth_ALL = With_L = With_R = With_ALL = 0; 
-			this.Depth_ALL = Depth(this.Root) + 1;
-			CountWith(this.Root);
-		}
 
 		public int MinValue() { return MinValue(this.Root); }
 		public int MaxValue() { return MaxValue(this.Root); }
-		public int Count() {
-			With_L = With_R = With_ALL = 0;
-			return Count(this.Root); 
+		public int Count()
+		{
+			return Count(this.Root);
 		}
 		public int Sum() { return Sum(this.Root); }
-		public void Print() => Print(this.Root);
 
-		public void Erase(int value)
+		public void Erase(int Data)
 		{
-			Erase(this.Root, value);
-			this.Depth_ALL = With_L = With_R = With_ALL = 0;
-			this.Depth_ALL = Depth(this.Root) + 1;
-			CountWith(this.Root);
+			Element Root = this.Root;
+			Erase(Data, Root, null);
 		}
 		public void Clear()
 		{
 			Clear(this.Root);
-			this.Depth_ALL = With_L = With_R = With_ALL = 0;
-			this.Depth_ALL = Depth(this.Root) + 1;
-			CountWith(this.Root);
-
 			this.Root = null;
-		}
-		public void Insert_For_Print_Dinamic()
-		{
-			H_Index = W_Index = 0;
-			this.Depth_ALL = With_L = With_R = With_ALL = 0;
-			this.Depth_ALL = Depth(this.Root) + 1;
-			CountWith(this.Root);
-			//		int[,] arr1 = new int[this.Depth_ALL, this.With_ALL+1];
-			//		int[,] arr2 = new int[this.Depth_ALL, this.With_ALL + 1];
-			int[,] arr1 = new int[this.Depth_ALL, (this.With_ALL*2)+1];
-			int[,] arr2 = new int[this.Depth_ALL, (this.With_ALL*2)+1];
-			Insert_For_Print_Dinamic(this.Root.p_Left, arr1);
-			Insert_For_Print_Dinamic(this.Root.p_Right, arr2);
-
-			Console.WriteLine("Левая часть :");
-			for (int i = 0; i < this.Depth_ALL; i++)
-			{
-				for (int j = 0; j < (this.With_ALL * 2) + 1; j++)
-				{
-					if (arr1[i, j] > 0) Console.Write(arr1[i, j]);
-					else Console.Write("   ");
-					}
-				Console.WriteLine();
-			}
-			Console.WriteLine($"Корневой элемент : {this.Root.Data}") ;
-
-			Console.WriteLine("Правая часть :");
-			for (int i = 0; i < this.Depth_ALL; i++)
-			{
-				for (int j = 0; j < (this.With_ALL * 2)+1; j++)
-				{
-					if (arr2[i, j] > 0) Console.Write(arr2[i, j]);
-					else Console.Write("   ");
-				}
-				Console.WriteLine();
-			}
 		}
 
 		private void Clear(Element Root)
@@ -166,103 +96,127 @@ namespace BinaryTree
 			Root.p_Right = null;
 		}
 
-		private Element Erase(Element Root, int value)
+		void Erase(int Data, Element Root, Element Parent)
 		{
-			if (Root == null) return null;
-
-			if (value < Root.Data) { Root.p_Left = Erase(Root.p_Left, value); }
-			else if (value > Root.Data) { Root.p_Right = Erase(Root.p_Right, value); }
-
-			else if (value == Root.Data)
-			{
-				if (Root.p_Right == null && Root.p_Left == null)
-				{
-					return Root.p_Right;
-				}
-				int min_value = MinValue(Root.p_Right);
-				Root.Data = min_value;
-				Root.p_Right = Erase(Root.p_Right, min_value);
-			}
-			return Root;
-		}
-
-		public int Depth(Element Root)
-		{
-			int L = 0, R = 0;
-			if (Root == null) return 0;
-			if (Root.p_Left != null) L += Depth(Root.p_Left) + 1;
-			if (Root.p_Right != null) R += Depth(Root.p_Right) + 1;
-			this.Depth_ALL = L > R ? L + 1 : R + 1;
-			return L > R ? L : R;
-		}
-
-		public int CountWith(Element Root)
-		{
-
-			if (Root == null) return 0;
-			Element Temp = this.Root;
-			while (Temp.p_Left != null)
-			{
-				With_L++;
-				Temp = Temp.p_Left;
-			}
-			Temp = this.Root;
-			while (Temp.p_Right != null)
-			{
-				With_R++;
-				Temp = Temp.p_Right;
-			}
-
-			this.With_ALL = this.With_L + 1 + this.With_R;
-			return 0;
-		}
-
-
-		public void Insert_For_Print_Dinamic(Element Root, int[,] arr)
-		{
-
 			if (Root == null) return;
-			int med = (this.With_ALL / 2);//  this.With_ALL % 2 == 0 ?  (this.With_ALL / 2) - 1 : (this.With_ALL / 2);
-			arr[H_Index, W_Index + med] = Root.Data;
-
-
-			//if (Root.p_Left != null)
-			//{
-			//	H_Index++;
-			//	W_Index--;
-			//	Insert_For_Print_Dinamic(Root.p_Left, arr);
-			//	H_Index--;
-			//	W_Index++;
-			//}
-
-			//if (Root.p_Right != null)
-			//{
-			//	H_Index++;
-			//	W_Index++;
-			//	Insert_For_Print_Dinamic(Root.p_Right, arr);
-			//	W_Index--;
-			//	H_Index--;
-			//}
-
-			if (Root.p_Left != null)
+			Erase(Data, Root.p_Left, Root);
+			Erase(Data, Root.p_Right, Root);
+			if (Data == Root.Data)
 			{
-				H_Index++;
-				W_Index-=2;
-				Insert_For_Print_Dinamic(Root.p_Left, arr);
-				H_Index--;
-				W_Index+=2;
+				if (Root.p_Left == Root.p_Right)
+				{
+					if (Root.Equals(Parent.p_Left)) Parent.p_Left = null;
+					if (Root.Equals(Parent.p_Right)) Parent.p_Right = null;
+				}
+				else
+				{
+					if (Count(Root.p_Left) > Count(Root.p_Right))
+					{
+						Root.Data = MaxValue(Root.p_Left);
+						Erase(MaxValue(Root.p_Left), Root.p_Left, Root);
+					}
+					else
+					{
+						Root.Data = MinValue(Root.p_Right);
+						Erase(MinValue(Root.p_Right), Root.p_Right, Root);
+					}
+				}
 			}
+		}
 
-			if (Root.p_Right != null)
+			public int Depth()
+		{
+			return Depth(Root);
+		}
+		int Depth(Element Root)
+		{
+			if (Root == null) return 0;
+			int lDepth = Depth(Root.p_Left);
+			int rDepth = Depth(Root.p_Right);
+			return (lDepth > rDepth ? lDepth : rDepth) + 1;
+		}
+
+
+		public void DepthPrint(int Depth)
+		{
+			DepthPrint(this.Root, Depth);
+			Console.WriteLine();
+			Console.WriteLine();
+			Console.WriteLine();
+		}
+		void DepthPrint(Element Root, int Depth)
+		{
+			int interval = BASE_INTERVAL * (this.Depth(this.Root) - Depth);
+			if (Root == null)
 			{
-				H_Index ++;
-				W_Index += 2;
-				Insert_For_Print_Dinamic(Root.p_Right, arr);
-				W_Index -= 2;
-				H_Index --;
+				Console.Write("".PadLeft(interval));
+				return;
 			}
+			if (Depth == 0)
+			{
+				Console.Write(Root.Data.ToString().PadLeft(interval));
+			}
+			else
+			{
+				DepthPrint(Root.p_Left, Depth - 1);
+				DepthPrint(Root.p_Right, Depth - 1);
+			}
+		}
+		public void TreePrint(int Depth = 0)
+		{
+			if (Root == null) return;
+			if (this.Depth(this.Root) - Depth == 0) return;
+			int interval = BASE_INTERVAL * (this.Depth() - Depth);
+			Console.Write("".PadLeft(interval));
+			PrintInterval(this.Depth(this.Root) - Depth);
+			DepthPrint(Depth);
+			TreePrint(Depth + 1);
+		}
+		void PrintInterval(int count)
+		{
+			for (int i = 0; i < count; i++) Console.Write("    ");
+		}
+		public void Print()
+		{
+			Print(this.Root);
+			Console.WriteLine();
+		}
+		void Print(Element Root)
+		{
+			if (Root == null) return;
+			Print(Root.p_Left);
+			Console.Write(Root.Data + "\t");
+			Print(Root.p_Right);
+		}
 
+		public void Balance()
+		{
+			Balance(this.Root);
+		}
+
+		void Balance(Element Root)
+		{
+			if (Root == null) return;
+			if (Math.Abs(Count(Root.p_Left) - Count(Root.p_Right)) < 2) return;
+			if (Count(Root.p_Left) > Count(Root.p_Right))
+			{
+				if (Root.p_Right == null) Root.p_Right = new Element(Root.Data);
+				else Insert(Root.Data, Root.p_Right);
+				Root.Data = MaxValue(Root.p_Left);
+				Erase(MaxValue(Root.p_Left), Root.p_Left, Root);
+			}
+			else
+			{
+				if (Root.p_Left == null) Root.p_Left = new Element(Root.Data);
+				else Insert(Root.Data, Root.p_Left);
+				Root.Data = MinValue(Root.p_Right);
+				Erase(MinValue(Root.p_Right), Root.p_Right, Root);
+			}
+			Balance(Root.p_Left);
+			Balance(Root.p_Right);
+			Balance(Root);
 		}
 
 	}
+
 }
